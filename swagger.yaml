@@ -1,0 +1,87 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Cars API
+  description: API to handle all company cars.
+  version: "1.0.0"
+# the domain of the service
+host: afdemocarsapi.azurewebsites.net
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /api
+produces:
+  - application/json
+  - text/xml
+paths:
+  /cars:
+    get:
+      summary: Returns all cars.
+      description: Returns a list of object type Car, containing all company cars.
+      parameters:
+        - name: s
+          in: query
+          description: Search for a string within the Car model, the parameter is used for all properties of the car model.
+          required: false
+          type: string
+      tags:
+        - Cars
+      responses:
+        200:
+          description: An array of object Car
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Car'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /cars/{id}:
+    get:
+      summary: Gets a specific car.
+      description: Gets the car object of a specified car models Id.
+      parameters:
+        - name: id
+          in: path
+          description: The id of the car to get.
+          required: true
+          type: string
+      tags:
+        - Cars
+      responses:
+        200:
+          description: The car object
+          schema:
+            $ref: '#/definitions/Car'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Car:
+    type: object
+    properties:
+      Id:
+        type: number
+        description: The id of the car
+      Make:
+        type: string
+        description: Make of the car
+      Model:
+        type: string
+        description: The model of the car
+      Year:
+        type: number
+        description: The year the car was built
+  Error:
+    type: object
+    properties: 
+      code:
+        type: number
+        description: The error code
+      message:
+        type: string
+        description: The error message
