@@ -1,0 +1,42 @@
+#%RAML 0.8
+title: Cars
+version: 1.0
+baseUri: http://afdemocarsapi.azurewebsites.net/api
+
+/cars:
+  get:
+    description: |
+      Returns a list of object type Car, containing all company cars.
+    queryParameters:
+      s:
+        displayName: s
+        type: string
+        example: Volvo
+        required: false
+        description: |
+          Search for a string within the Car model, the parameter is used for all properties of the car model.
+    responses:
+      200:
+        description: An array of object Car
+        body:
+          application/json:
+            example: |
+              [{
+                "Id": 1, "Make": "Volvo", "Model": "XC60", "Year": 2015
+              }, {
+                "Id": 2, "Make": "Renault", "Model": "Megane", "Year": 2012
+              }]
+/cars/{id}:
+  get:
+    description: |
+      Gets the car object of a specified car models Id.
+    responses:
+      200:
+        description: |
+          Gets the car object of a specified car models Id.
+        body:
+          application/json:
+            example: |
+              {
+                "Id": 1, "Make": "Volvo", "Model": "XC60", "Year": 2015
+              }
